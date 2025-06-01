@@ -1,41 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Crear Terapeuta</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulario de Terapeutas</title>
 </head>
-<body style="font-family: sans-serif; padding: 20px">
-  <h2>Nuevo Terapeuta</h2>
-  <form id="form">
-    <label>Nombre:<br><input type="text" id="nombre" required></label><br><br>
-    <label>Descripción:<br><textarea id="descripcion" required></textarea></label><br><br>
-    <label>Especialidad:<br><input type="text" id="especialidad" required></label><br><br>
-    <button type="submit">Crear terapeuta</button>
+<body>
+  <h1>Formulario de registro de terapeutas</h1>
+  <form action="https://servicios-holisticos-backend.onrender.com/terapeutas" method="POST">
+    <label>Nombre:</label><br />
+    <input type="text" name="nombre" required /><br /><br />
+
+    <label>Descripción:</label><br />
+    <textarea name="descripcion" required></textarea><br /><br />
+
+    <label>Especialidad:</label><br />
+    <input type="text" name="especialidad" required /><br /><br />
+
+    <button type="submit">Enviar</button>
   </form>
-  <p id="mensaje"></p>
-
-  <script>
-    document.getElementById("form").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const nombre = document.getElementById("nombre").value;
-      const descripcion = document.getElementById("descripcion").value;
-      const especialidad = document.getElementById("especialidad").value;
-
-      const respuesta = await fetch("https://servicios-holisticos-backend.onrender.com/terapeutas", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ nombre, descripcion, especialidad })
-      });
-
-      if (respuesta.ok) {
-        document.getElementById("mensaje").innerText = "Terapeuta creado con éxito ✅";
-        document.getElementById("form").reset();
-      } else {
-        document.getElementById("mensaje").innerText = "❌ Error al crear terapeuta";
-      }
-    });
-  </script>
 </body>
 </html>
