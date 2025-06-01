@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>Formulario de registro de terapeutas</h1>
-  <form action="https://servicios-holisticos-backend.onrender.com/api/terapeutas" method="POST">
+  <form id="formulario">
     <label>Nombre:</label><br />
     <input type="text" name="nombre" required /><br /><br />
 
@@ -19,5 +19,41 @@
 
     <button type="submit">Enviar</button>
   </form>
+
+  <div id="mensaje"></div>
+
+  <script>
+    const formulario = document.getElementById("formulario");
+    const mensaje = document.getElementById("mensaje");
+
+    formulario.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const datos = {
+        nombre: formulario.nombre.value,
+        descripcion: formulario.descripcion.value,
+        especialidad: formulario.especialidad.value
+      };
+
+      try {
+        const res = await fetch("https://servicios-holisticos-backend.onrender.com/api/terapeutas", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datos),
+        });
+
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.message || "Error al enviar el formulario");
+        }
+
+        const data = await res.json();
+        mensaje.innerHTML = `<p style="color:green;">Terapeuta agregado correctamente. ID: ${data._id}</p>`;
+        formulario.reset();
+      } catch (error) {
+        mensaje.innerHTML = `<p style="color:red;">${error.message}</p>`;
+      }
+    });
+  </script>
 </body>
 </html>
