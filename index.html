@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Registro Terapeuta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de Terapeuta</title>
 </head>
 <body>
   <h1>Registro de Terapeuta</h1>
   <form action="https://servicios-holisticos-backend.onrender.com/api/terapeutas" method="POST">
+    
     <label>Nombre y Apellido:</label><br />
     <input type="text" name="nombreCompleto" required /><br /><br />
 
@@ -15,14 +16,14 @@
     <input type="email" name="email" required /><br /><br />
 
     <label>Contraseña:</label><br />
-    <input type="password" name="contraseña" minlength="6" required /><br /><br />
+    <input type="password" name="contraseña" required /><br /><br />
 
-    <label>Especialidades:</label><br />
+    <label>Especialidades (separadas por coma):</label><br />
     <input type="text" name="especialidades" required /><br /><br />
 
     <label>Modalidad:</label><br />
     <select name="modalidad" required>
-      <option value="">--Seleccione--</option>
+      <option value="">--Seleccionar--</option>
       <option value="presencial">Presencial</option>
       <option value="online">Online</option>
       <option value="ambas">Ambas</option>
@@ -31,8 +32,9 @@
     <label>Ubicación (ciudad o zona):</label><br />
     <input type="text" name="ubicacion" required /><br /><br />
 
-    <button type="submit">Registrar</button>
+    <button type="submit">Registrarme</button>
   </form>
-  <p>Una vez registrado, podrás completar tu perfil con más información como redes sociales, foto y descripción profesional.</p>
+
+  <p>Una vez registrado, podrás completar tu perfil con descripción, redes sociales, foto y más.</p>
 </body>
 </html>
