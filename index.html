@@ -2,58 +2,37 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Formulario de Terapeutas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro Terapeuta</title>
 </head>
 <body>
-  <h1>Formulario de registro de terapeutas</h1>
-  <form id="formulario">
-    <label>Nombre:</label><br />
-    <input type="text" name="nombre" required /><br /><br />
+  <h1>Registro de Terapeuta</h1>
+  <form action="https://servicios-holisticos-backend.onrender.com/api/terapeutas" method="POST">
+    <label>Nombre y Apellido:</label><br />
+    <input type="text" name="nombreCompleto" required /><br /><br />
 
-    <label>Descripción:</label><br />
-    <textarea name="descripcion" required></textarea><br /><br />
+    <label>Email:</label><br />
+    <input type="email" name="email" required /><br /><br />
 
-    <label>Especialidad:</label><br />
-    <input type="text" name="especialidad" required /><br /><br />
+    <label>Contraseña:</label><br />
+    <input type="password" name="contraseña" minlength="6" required /><br /><br />
 
-    <button type="submit">Enviar</button>
+    <label>Especialidades:</label><br />
+    <input type="text" name="especialidades" required /><br /><br />
+
+    <label>Modalidad:</label><br />
+    <select name="modalidad" required>
+      <option value="">--Seleccione--</option>
+      <option value="presencial">Presencial</option>
+      <option value="online">Online</option>
+      <option value="ambas">Ambas</option>
+    </select><br /><br />
+
+    <label>Ubicación (ciudad o zona):</label><br />
+    <input type="text" name="ubicacion" required /><br /><br />
+
+    <button type="submit">Registrar</button>
   </form>
-
-  <div id="mensaje"></div>
-
-  <script>
-    const formulario = document.getElementById("formulario");
-    const mensaje = document.getElementById("mensaje");
-
-    formulario.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const datos = {
-        nombre: formulario.nombre.value,
-        descripcion: formulario.descripcion.value,
-        especialidad: formulario.especialidad.value
-      };
-
-      try {
-        const res = await fetch("https://servicios-holisticos-backend.onrender.com/api/terapeutas", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(datos),
-        });
-
-        if (!res.ok) {
-          const error = await res.json();
-          throw new Error(error.message || "Error al enviar el formulario");
-        }
-
-        const data = await res.json();
-        mensaje.innerHTML = `<p style="color:green;">Terapeuta agregado correctamente. ID: ${data._id}</p>`;
-        formulario.reset();
-      } catch (error) {
-        mensaje.innerHTML = `<p style="color:red;">${error.message}</p>`;
-      }
-    });
-  </script>
+  <p>Una vez registrado, podrás completar tu perfil con más información como redes sociales, foto y descripción profesional.</p>
 </body>
 </html>
