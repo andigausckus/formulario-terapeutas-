@@ -4,37 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Perfil del Terapeuta</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f3f3f3; }
-    .perfil { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    h1 { margin-top: 0; }
-  </style>
 </head>
 <body>
-  <div class="perfil" id="perfil">
-    Cargando datos del terapeuta...
-  </div>
+  <h1>Perfil del Terapeuta</h1>
+  <div id="info-terapeuta">Cargando terapeuta...</div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
     if (!id) {
-      document.getElementById("perfil").innerText = "No se proporcionó un ID de terapeuta.";
+      document.getElementById("info-terapeuta").innerText = "ID no válido.";
     } else {
       fetch(`https://servicios-holisticos-backend.onrender.com/api/terapeutas/${id}`)
         .then(res => res.json())
         .then(t => {
-          document.getElementById("perfil").innerHTML = `
-            <h1>${t.nombre}</h1>
-            <p><strong>Especialidad:</strong> ${t.especialidad}</p>
-            <p><strong>Descripción:</strong> ${t.descripcion}</p>
-            <!-- Más campos a futuro como foto, redes, idiomas -->
-          `;
+          if (!t || t.error) {
+            document.getElementById("info-terapeuta").innerText = "No se pudo cargar el terapeuta.";
+          } else {
+            document.getElementById("info-terapeuta").innerHTML = `
+              <p><strong>Nombre completo:</strong> ${t.nombreCompleto}</p>
+              <p><strong>Email:</strong> ${t.email}</p>
+              <p><strong>Especialidades:</strong> ${t.especialidades}</p>
+              <p><strong>Modalidad:</strong> ${t.modalidad}</p>
+              <p><strong>Ubicación:</strong> ${t.ubicacion}</p>
+            `;
+          }
         })
         .catch(err => {
-          document.getElementById("perfil").innerText = "No se pudo cargar el terapeuta.";
-          console.error(err);
+          console.error("Error al cargar terapeuta:", err);
+          document.getElementById("info-terapeuta").innerText = "Error al cargar terapeuta.";
         });
     }
   </script>
