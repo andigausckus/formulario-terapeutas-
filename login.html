@@ -1,28 +1,45 @@
-<script>
-  async function iniciarSesion() {
-    const email = document.getElementById("email").value;
-    const contraseña = document.getElementById("contraseña").value;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login de Terapeutas</title>
+</head>
+<body>
+  <h1>Login de Terapeutas</h1>
 
-    const respuesta = await fetch("https://servicios-holisticos-backend.onrender.com/api/terapeutas/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email, contraseña })
-    });
+  <label>Email:</label><br>
+  <input type="email" id="email" required><br><br>
 
-    const data = await respuesta.json();
+  <label>Contraseña:</label><br>
+  <input type="password" id="contraseña" required><br><br>
 
-    if (respuesta.ok) {
-      // ✅ Guardar el token en localStorage
-      localStorage.setItem("token", data.token);
+  <!-- 👇 Aquí va el botón -->
+  <button onclick="iniciarSesion()">Ingresar</button>
 
-      alert("Bienvenido/a, " + data.terapeuta.nombre);
+  <h3>Token generado:</h3>
+  <pre id="resultado"></pre>
 
-      // ✅ Redirigir a perfil.html pasando el ID por la URL
-      window.location.href = `perfil.html?id=${data.terapeuta.id}`;
-    } else {
-      alert("Error al iniciar sesión: " + data.message);
+  <script>
+    async function iniciarSesion() {
+      const email = document.getElementById("email").value;
+      const contraseña = document.getElementById("contraseña").value;
+
+      const respuesta = await fetch("https://servicios-holisticos-backend.onrender.com/api/terapeutas/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, contraseña })
+      });
+
+      const data = await respuesta.json();
+      
+      if (data.token) {
+        document.getElementById("resultado").textContent = data.token;
+        // Puedes guardar el token en localStorage si lo deseas
+        // localStorage.setItem("token", data.token);
+      } else {
+        document.getElementById("resultado").textContent = "Login incorrecto.";
+      }
     }
-  }
-</script>
+  </script>
+</body>
+</html>
