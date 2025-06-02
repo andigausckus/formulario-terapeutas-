@@ -16,7 +16,7 @@
         const lista = document.getElementById("lista-terapeutas");
         data.forEach(t => {
           const item = document.createElement("li");
-          item.innerHTML = `<a href="perfil.html?id=${t._id}">${t.nombre}</a> - ${t.especialidad}`;
+          item.innerHTML = `<a href="perfil.html?id=${t._id}">${t.nombreCompleto}</a> - ${t.especialidades?.join(", ")}`;
           lista.appendChild(item);
         });
       })
