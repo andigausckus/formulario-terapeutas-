@@ -61,7 +61,7 @@
     async function verPerfil() {
       const token = document.getElementById('token').value;
 
-      const respuesta = await fetch("https://SERVICIO.onrender.com/api/terapeutas/perfil", {
+      const respuesta = await fetch("https://servicios-holisticos-backend.onrender.com/api/terapeutas/perfil", {
         method: "GET",
         headers: {
           "Authorization": "Bearer " + token
