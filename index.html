@@ -1,4 +1,6 @@
-<form id="formulario-terapeuta" method="POST" action="https://servicios-holisticos-backend.onrender.com/api/terapeutas">
+<h2>Formulario de Registro de Terapeutas</h2>
+
+<form id="formulario-terapeuta">
   <label>Nombre completo:</label>
   <input type="text" name="nombreCompleto" required><br>
 
@@ -23,3 +25,35 @@
 
   <button type="submit">Registrar Terapeuta</button>
 </form>
+
+<div id="respuesta" style="margin-top: 10px; font-weight: bold;"></div>
+
+<script>
+  document.getElementById("formulario-terapeuta").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const datos = Object.fromEntries(formData.entries());
+
+    try {
+      const respuesta = await fetch("https://servicios-holisticos-backend.onrender.com/api/terapeutas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(datos)
+      });
+
+      const resultado = await respuesta.json();
+
+      if (respuesta.ok) {
+        document.getElementById("respuesta").textContent = "¡Terapeuta registrado con éxito! ID: " + resultado._id;
+        e.target.reset();
+      } else {
+        document.getElementById("respuesta").textContent = "Error: " + (resultado.message || "Verifica los datos.");
+      }
+    } catch (error) {
+      document.getElementById("respuesta").textContent = "Error de conexión con el servidor.";
+    }
+  });
+        </script>
