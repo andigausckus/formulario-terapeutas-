@@ -1,72 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registro de Terapeuta</title>
-</head>
-<body>
-  <h1>Registro de Terapeuta</h1>
-  <form id="registroForm">
-    <label>Nombre y Apellido:</label><br />
-    <input type="text" name="nombreCompleto" required /><br /><br />
+<form id="formulario-terapeuta">
+  <!-- mismos inputs de arriba -->
+</form>
 
-    <label>Email:</label><br />
-    <input type="email" name="email" required /><br /><br />
+<div id="respuesta"></div>
 
-    <label>Contraseña:</label><br />
-    <input type="password" name="contraseña" required /><br /><br />
+<script>
+  document.getElementById("formulario-terapeuta").addEventListener("submit", async function (e) {
+    e.preventDefault(); // Evita que se recargue la página
 
-    <label>Especialidades (separadas por coma):</label><br />
-    <input type="text" name="especialidades" required /><br /><br />
+    const formData = new FormData(e.target);
+    const datos = Object.fromEntries(formData.entries());
 
-    <label>Modalidad:</label><br />
-    <select name="modalidad" required>
-      <option value="">--Seleccionar--</option>
-      <option value="presencial">Presencial</option>
-      <option value="online">Online</option>
-      <option value="ambas">Ambas</option>
-    </select><br /><br />
+    try {
+      const respuesta = await fetch("https://servicios-holisticos-backend.onrender.com/api/terapeutas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(datos)
+      });
 
-    <label>Ubicación (ciudad o zona):</label><br />
-    <input type="text" name="ubicacion" required /><br /><br />
+      const resultado = await respuesta.json();
 
-    <button type="submit">Registrarme</button>
-  </form>
-
-  <div id="respuesta"></div>
-
-  <script>
-    const form = document.getElementById('registroForm');
-    const respuesta = document.getElementById('respuesta');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const datos = {
-        nombreCompleto: form.nombreCompleto.value,
-        email: form.email.value,
-        contraseña: form.contraseña.value,
-        especialidades: form.especialidades.value.split(',').map(e => e.trim()),
-        modalidad: form.modalidad.value,
-        ubicacion: form.ubicacion.value
-      };
-
-      try {
-        const res = await fetch('https://servicios-holisticos-backend.onrender.com/api/terapeutas', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(datos)
-        });
-
-        const resultado = await res.json();
-        respuesta.innerText = JSON.stringify(resultado, null, 2);
-      } catch (error) {
-        respuesta.innerText = '❌ Error al enviar el formulario';
+      if (respuesta.ok) {
+        document.getElementById("respuesta").textContent = "¡Terapeuta registrado con éxito! ID: " + resultado._id;
+        e.target.reset();
+      } else {
+        document.getElementById("respuesta").textContent = "Error: " + (resultado.message || "Verifica los datos.");
       }
-    });
-  </script>
-</body>
-</html>
+    } catch (error) {
+      document.getElementById("respuesta").textContent = "Error de conexión con el servidor.";
+    }
+  });
+</script>
