@@ -1,35 +1,25 @@
-<form id="formulario-terapeuta">
-  <!-- mismos inputs de arriba -->
+<form id="formulario-terapeuta" method="POST" action="https://servicios-holisticos-backend.onrender.com/api/terapeutas">
+  <label>Nombre completo:</label>
+  <input type="text" name="nombreCompleto" required><br>
+
+  <label>Email:</label>
+  <input type="email" name="email" required><br>
+
+  <label>Contraseña:</label>
+  <input type="password" name="contraseña" required><br>
+
+  <label>Especialidades:</label>
+  <input type="text" name="especialidades" required><br>
+
+  <label>Modalidad:</label>
+  <select name="modalidad" required>
+    <option value="online">Online</option>
+    <option value="presencial">Presencial</option>
+    <option value="ambas">Ambas</option>
+  </select><br>
+
+  <label>Ubicación:</label>
+  <input type="text" name="ubicacion" required><br>
+
+  <button type="submit">Registrar Terapeuta</button>
 </form>
-
-<div id="respuesta"></div>
-
-<script>
-  document.getElementById("formulario-terapeuta").addEventListener("submit", async function (e) {
-    e.preventDefault(); // Evita que se recargue la página
-
-    const formData = new FormData(e.target);
-    const datos = Object.fromEntries(formData.entries());
-
-    try {
-      const respuesta = await fetch("https://servicios-holisticos-backend.onrender.com/api/terapeutas", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(datos)
-      });
-
-      const resultado = await respuesta.json();
-
-      if (respuesta.ok) {
-        document.getElementById("respuesta").textContent = "¡Terapeuta registrado con éxito! ID: " + resultado._id;
-        e.target.reset();
-      } else {
-        document.getElementById("respuesta").textContent = "Error: " + (resultado.message || "Verifica los datos.");
-      }
-    } catch (error) {
-      document.getElementById("respuesta").textContent = "Error de conexión con el servidor.";
-    }
-  });
-</script>
