@@ -39,3 +39,38 @@
   </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Perfil del Terapeuta</title>
+</head>
+<body>
+  <h2>Ver Perfil</h2>
+
+  <label for="token">Pega tu token aquí:</label><br>
+  <textarea id="token" rows="4" cols="60" placeholder="Pega el token JWT aquí"></textarea><br><br>
+
+  <button onclick="verPerfil()">Ver mi perfil</button>
+
+  <h3>Resultado:</h3>
+  <pre id="resultado"></pre>
+
+  <script>
+    async function verPerfil() {
+      const token = document.getElementById('token').value;
+
+      const respuesta = await fetch("https://SERVICIO.onrender.com/api/terapeutas/perfil", {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      });
+
+      const data = await respuesta.json();
+      document.getElementById('resultado').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
