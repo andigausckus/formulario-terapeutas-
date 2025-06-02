@@ -15,8 +15,11 @@
       .then(data => {
         const lista = document.getElementById("lista-terapeutas");
         data.forEach(t => {
+          const nombre = t.nombreCompleto || "Sin nombre";
+          const especialidades = Array.isArray(t.especialidades) ? t.especialidades.join(", ") : "No especificado";
+
           const item = document.createElement("li");
-          item.innerHTML = `<a href="perfil.html?id=${t._id}">${t.nombreCompleto}</a> - ${t.especialidades?.join(", ")}`;
+          item.innerHTML = `<a href="perfil.html?id=${t._id}">${nombre}</a> - ${especialidades}`;
           lista.appendChild(item);
         });
       })
